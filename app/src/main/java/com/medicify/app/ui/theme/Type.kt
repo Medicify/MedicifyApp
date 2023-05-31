@@ -9,18 +9,33 @@ import androidx.compose.ui.unit.sp
 import com.medicify.app.R
 
 
-
 val Poppins = FontFamily(
     Font(R.font.poppins)
 )
+
 // Set of Material typography styles to start with
 val Typography = Typography(
+
     bodyLarge = TextStyle(
         fontFamily = Poppins,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
+    ),
+    headlineLarge = TextStyle(
+        fontFamily = Poppins,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 24.sp,
+    ),
+    headlineMedium = TextStyle(
+        fontFamily = Poppins,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 16.sp
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = Poppins,
+        fontSize = 12.sp
     )
     /* Other default text styles to override
     titleLarge = TextStyle(
