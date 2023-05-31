@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class ApiResponse(
 
 	@field:SerializedName("request")
-	val request: RequestResponse,
+	val request: RequestResponse?,
 
 	@field:SerializedName("service")
 	val service: String,
