@@ -4,8 +4,10 @@ import com.medicify.app.BuildConfig
 import com.medicify.app.data.remote.ApiService
 import com.medicify.app.data.repository.DrugsRepository
 import com.medicify.app.data.repository.DrugsRepositoryImpl
+import com.medicify.app.ui.screen.home.HomeViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -33,5 +35,9 @@ val appModule = module {
 
     single<DrugsRepository> {
         DrugsRepositoryImpl(get())
+    }
+
+    viewModel{
+        HomeViewModel(get())
     }
 }
