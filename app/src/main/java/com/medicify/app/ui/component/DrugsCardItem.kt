@@ -26,7 +26,7 @@ import coil.compose.AsyncImage
 import com.medicify.app.R
 import com.medicify.app.data.model.DrugItem
 import com.medicify.app.ui.theme.MedicifyTheme
-import com.medicify.app.ui.utils.DummyDataSource
+import com.medicify.app.ui.utils.PreviewDataSource
 import com.medicify.app.ui.utils.debugPlaceholder
 import com.medicify.app.ui.utils.getFirstWord
 
@@ -85,7 +85,7 @@ fun DrugsCardItemPreview() {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
-            DrugsCardItem(modifier = Modifier, drug = DummyDataSource.getDrugItem())
+            DrugsCardItem(modifier = Modifier, drug = PreviewDataSource.getDrug()[0])
         }
     }
 }

@@ -19,7 +19,7 @@ fun HomeScreen(
         }
 
         is UiState.Success -> {
-            DrugsCardList(modifier, result)
+            DrugsCardList(modifier, result.data)
         }
         is UiState.Error -> {}
     }
