@@ -3,9 +3,7 @@ package com.medicify.app.ui.component
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -41,53 +39,50 @@ fun SearchBar(
     modifier: Modifier,
     query: String,
     onQueryChange: (String) -> Unit,
-    onClearClick: () -> Unit = {},
+    onClearClick: () -> Unit,
 ) {
     var showClearButton by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    Box(modifier.padding(8.dp)) {
-
-        OutlinedTextField(
-            modifier = modifier
-                .fillMaxWidth()
-                .onFocusChanged { focusState ->
-                    showClearButton = (focusState.isFocused)
-                },
-            value = query,
-            onValueChange = onQueryChange,
-            placeholder = {
-                Text(
-                    text = stringResource(R.string.search_placeholder),
-                    fontSize = 14.sp,
-                )
+    OutlinedTextField(
+        modifier = modifier
+            .fillMaxWidth()
+            .onFocusChanged { focusState ->
+                showClearButton = (focusState.isFocused)
             },
-            colors = OutlinedTextFieldDefaults.colors(
-            ),
-            shape = RoundedCornerShape(50.dp),
-            maxLines = 1,
-            singleLine = true,
-            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-            keyboardActions = KeyboardActions(onDone = {
-                keyboardController?.hide()
-            }),
-            trailingIcon = {
-                AnimatedVisibility(
-                    visible = showClearButton,
-                    enter = fadeIn(),
-                    exit = fadeOut()
-                ) {
-                    IconButton(onClick = { onClearClick() }) {
-                        Icon(
-                            imageVector = Icons.Default.Close,
-                            contentDescription = "Hapus Search",
-                            tint = MaterialTheme.colorScheme.scrim
-                        )
-                    }
+        value = query,
+        onValueChange = onQueryChange,
+        placeholder = {
+            Text(
+                text = stringResource(R.string.search_placeholder),
+                fontSize = 14.sp,
+            )
+        },
+        colors = OutlinedTextFieldDefaults.colors(
+        ),
+        shape = RoundedCornerShape(50.dp),
+        maxLines = 1,
+        singleLine = true,
+        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+        keyboardActions = KeyboardActions(onDone = {
+            keyboardController?.hide()
+        }),
+        trailingIcon = {
+            AnimatedVisibility(
+                visible = showClearButton,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                IconButton(onClick = { onClearClick() }) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = "Hapus Search",
+                        tint = MaterialTheme.colorScheme.scrim
+                    )
                 }
-            },
-        )
-    }
+            }
+        },
+    )
 }
 
 
@@ -95,7 +90,7 @@ fun SearchBar(
 @Composable
 fun SearchBarPreview() {
     MedicifyTheme {
-        Surface(color = MaterialTheme.colorScheme.background) {
+        Surface {
             var query by remember {
                 mutableStateOf("")
             }
