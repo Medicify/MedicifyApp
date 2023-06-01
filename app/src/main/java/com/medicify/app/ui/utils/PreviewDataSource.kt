@@ -22,6 +22,7 @@ object PreviewDataSource {
             jsonMemberPackage = "Dus, 10 Strip @ 10 Tablet",
             manufactur = "Generic Manufacturer",
             productUrl = "https://www.halodoc.com/obat-dan-vitamin/paracetamol-500-mg-10-kaplet",
+            imageCustom = "http://34.36.211.221/assets/strip.png"
         ),
         DrugItem(
             id = "9a797f90-fd39-11ed-829f-4201ac1f7003",
@@ -41,6 +42,7 @@ object PreviewDataSource {
             jsonMemberPackage = "Dus, 10 Strip @ 10 Tablet",
             manufactur = "Generic Manufacturer",
             productUrl = "https://www.halodoc.com/obat-dan-vitamin/paracetamol-500-mg-10-kaplet",
+            imageCustom = "http://34.36.211.221/assets/strip.png"
         ),
         DrugItem(
             id = "9a797f90-fd39-11ed-829f-4201ac1f7004",
@@ -60,6 +62,7 @@ object PreviewDataSource {
             jsonMemberPackage = "Dus, 10 Strip @ 10 Tablet",
             manufactur = "Generic Manufacturer",
             productUrl = "https://www.halodoc.com/obat-dan-vitamin/paracetamol-500-mg-10-kaplet",
+            imageCustom = "http://34.36.211.221/assets/strip.png"
         ),
     )
 }

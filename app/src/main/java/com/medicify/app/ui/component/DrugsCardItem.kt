@@ -54,7 +54,7 @@ fun DrugsCardItem(
                 .fillMaxWidth()
         ) {
             AsyncImage(
-                model = drug.image,
+                model = drug.imageCustom,
                 placeholder = debugPlaceholder(debugPreview = R.drawable.drug_placeholder),
                 contentDescription = drug.title,
                 contentScale = ContentScale.FillWidth,

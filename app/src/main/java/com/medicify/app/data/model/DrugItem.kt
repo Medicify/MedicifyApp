@@ -53,5 +53,8 @@ data class DrugItem(
 	val indicationContra: String?,
 
 	@field:SerializedName("side_effect")
-	val sideEffect: String?
+	val sideEffect: String?,
+
+	@field:SerializedName("custom_image")
+	val imageCustom: String
 )
