@@ -13,7 +13,7 @@ fun DrugsCardList(
     result: UiState.Success<List<DrugItem>>
 ) {
     LazyColumn(modifier = modifier) {
-        items(result.data) { drug ->
+        items(result.data, key = { item -> item.id }) { drug ->
             DrugsCardItem(modifier, drug)
         }
     }
