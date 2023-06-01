@@ -31,7 +31,11 @@ import com.medicify.app.ui.utils.debugPlaceholder
 import com.medicify.app.ui.utils.getFirstWord
 
 @Composable
-fun DrugsCardItem(modifier: Modifier, drug: DrugItem) {
+fun DrugsCardItem(
+    modifier: Modifier = Modifier,
+    drug: DrugItem,
+    navigateToDetail: (String) -> Unit
+) {
     Card(
         modifier = modifier
             .padding(
@@ -40,7 +44,7 @@ fun DrugsCardItem(modifier: Modifier, drug: DrugItem) {
             )
             .wrapContentHeight()
             .fillMaxWidth()
-            .clickable { },
+            .clickable { navigateToDetail(drug.title) },
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
     ) {
@@ -85,7 +89,9 @@ fun DrugsCardItemPreview() {
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
-            DrugsCardItem(modifier = Modifier, drug = PreviewDataSource.getDrug()[0])
+            DrugsCardItem(
+                drug = PreviewDataSource.getDrug()[0],
+                navigateToDetail = {})
         }
     }
 }

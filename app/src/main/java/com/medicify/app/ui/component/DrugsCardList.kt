@@ -13,12 +13,13 @@ import com.medicify.app.ui.utils.PreviewDataSource
 
 @Composable
 fun DrugsCardList(
-    modifier: Modifier,
-    drugList: List<DrugItem>
+    modifier: Modifier = Modifier,
+    drugList: List<DrugItem>,
+    navigateToDetail: (String) -> Unit
 ) {
     LazyColumn(modifier = modifier) {
         items(drugList, key = { item -> item.id }) { drug ->
-            DrugsCardItem(modifier, drug)
+            DrugsCardItem(modifier, drug, navigateToDetail = navigateToDetail)
         }
     }
 }
@@ -28,7 +29,9 @@ fun DrugsCardList(
 fun DrugCardListPreview() {
     MedicifyTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
-            DrugsCardList(modifier = Modifier, drugList = PreviewDataSource.getDrug())
+            DrugsCardList(
+                drugList = PreviewDataSource.getDrug(),
+                navigateToDetail = {})
         }
     }
 }
