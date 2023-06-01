@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Medicify</string>
+    <string name="search_placeholder">Masukkan nama obat atau gejala di sini…</string>
 </resources>
