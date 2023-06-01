@@ -8,50 +8,50 @@ data class DrugItem(
 	val image: String,
 
 	@field:SerializedName("bpom")
-	val bpom: String,
+	val bpom: String?,
 
 	@field:SerializedName("product_url")
 	val productUrl: String,
 
 	@field:SerializedName("package")
-	val jsonMemberPackage: String,
+	val jsonMemberPackage: String?,
 
 	@field:SerializedName("manufactur")
 	val manufactur: String,
 
 	@field:SerializedName("description")
-	val description: String,
+	val description: String?,
 
 	@field:SerializedName("how_to_use")
-	val howToUse: String,
+	val howToUse: String?,
 
 	@field:SerializedName("title")
 	val title: String,
 
 	@field:SerializedName("type")
-	val type: String,
+	val type: String?,
 
 	@field:SerializedName("product_class")
 	val productClass: String,
 
 	@field:SerializedName("dose")
-	val dose: Any,
+	val dose: String?,
 
 	@field:SerializedName("attention")
-	val attention: Any,
+	val attention: String?,
 
 	@field:SerializedName("compotition")
-	val compotition: Any,
+	val compotition: String?,
 
 	@field:SerializedName("id")
 	val id: String,
 
 	@field:SerializedName("indication")
-	val indication: String,
+	val indication: String?,
 
 	@field:SerializedName("indication_contra")
-	val indicationContra: Any,
+	val indicationContra: String?,
 
 	@field:SerializedName("side_effect")
-	val sideEffect: Any
+	val sideEffect: String?
 )
