@@ -1,5 +1,8 @@
 package com.medicify.app.ui.utils
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -28,4 +31,11 @@ fun String.firstWord(): String {
 @Composable
 fun Int.getVectorResource(): ImageVector {
     return ImageVector.vectorResource(id = this)
+}
+
+fun copyToClipboard(context: Context, text: String) {
+    val clipboardManager =
+        context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clip = ClipData.newPlainText("text", text)
+    clipboardManager.setPrimaryClip(clip)
 }

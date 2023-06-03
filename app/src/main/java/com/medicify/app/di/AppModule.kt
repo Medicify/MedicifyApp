@@ -4,6 +4,7 @@ import com.medicify.app.BuildConfig
 import com.medicify.app.data.remote.ApiService
 import com.medicify.app.data.repository.DrugsRepository
 import com.medicify.app.data.repository.DrugsRepositoryImpl
+import com.medicify.app.ui.screen.camera.CameraViewModel
 import com.medicify.app.ui.screen.home.HomeViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -39,5 +40,9 @@ val appModule = module {
 
     viewModel{
         HomeViewModel(get())
+    }
+
+    viewModel{
+        CameraViewModel(get())
     }
 }
