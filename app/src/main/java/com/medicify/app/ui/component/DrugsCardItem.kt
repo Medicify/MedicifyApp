@@ -17,6 +17,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,7 +31,7 @@ import com.medicify.app.data.model.DrugItem
 import com.medicify.app.ui.theme.MedicifyTheme
 import com.medicify.app.ui.utils.PreviewDataSource
 import com.medicify.app.ui.utils.debugPlaceholder
-import com.medicify.app.ui.utils.getFirstWord
+import com.medicify.app.ui.utils.firstWord
 
 @Composable
 fun DrugsCardItem(
@@ -60,6 +63,12 @@ fun DrugsCardItem(
                 contentScale = ContentScale.FillWidth,
                 modifier = modifier
                     .size(80.dp)
+                    .drawBehind {
+                        this.drawRoundRect(
+                            color = Color(109, 137, 232),
+                            cornerRadius = CornerRadius(10F, 10F)
+                        )
+                    }
                     .clip(RoundedCornerShape(10.dp))
             )
             Spacer(modifier = modifier.padding(4.dp))
@@ -72,7 +81,7 @@ fun DrugsCardItem(
                     )
                 )
                 Text(
-                    text = getFirstWord(drug.title),
+                    text = drug.title.firstWord(),
                     fontWeight = FontWeight.SemiBold,
                     color = colorResource(id = R.color.red_500)
                 )
