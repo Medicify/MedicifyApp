@@ -33,7 +33,6 @@ fun LoginScreen(
     onSignInCLick: () -> Unit,
     toCamera: () -> Unit,
 ) {
-
     Column(
         modifier.padding(16.dp),
         verticalArrangement = Arrangement.Center,
@@ -110,7 +109,10 @@ fun LoginScreen(
 fun LoginScreenPreview() {
     MedicifyTheme {
         Surface(color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxSize()) {
-            LoginScreen(onSignInCLick = {}, toCamera = {})
+            LoginScreen(
+                onSignInCLick = {},
+                toCamera = {},
+            )
         }
     }
 }

@@ -13,9 +13,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,8 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.medicify.app.ui.common.UiState
 import com.medicify.app.ui.component.CircularLoading
 import com.medicify.app.ui.component.DrugsCardList
@@ -37,10 +32,9 @@ import org.koin.androidx.compose.koinViewModel
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = koinViewModel(),
-    navigateToDetail: (String) -> Unit
+    navigateToDetail: (String) -> Unit,
+    user: FirebaseUser?
 ) {
-    val user by remember { mutableStateOf(Firebase.auth.currentUser) }
-
     when (val result = viewModel.response.value) {
         is UiState.Loading -> {
             CircularLoading(modifier)
@@ -71,7 +65,7 @@ private fun TopBar(
             modifier
                 .height(80.dp)
                 .padding(8.dp)
-                .clickable {  },
+                .clickable { },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {

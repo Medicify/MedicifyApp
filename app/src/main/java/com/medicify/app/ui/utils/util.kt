@@ -2,8 +2,10 @@ package com.medicify.app.ui.utils
 
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 
 @Composable
 fun debugPlaceholder(@DrawableRes debugPreview: Int) =
@@ -21,4 +23,9 @@ fun String.firstWord(): String {
     } else {
         this
     }
+}
+
+@Composable
+fun Int.getVectorResource(): ImageVector {
+    return ImageVector.vectorResource(id = this)
 }
