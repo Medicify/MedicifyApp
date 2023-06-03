@@ -36,7 +36,7 @@ import com.medicify.app.ui.theme.MedicifyTheme
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchBar(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     query: String,
     onQueryChange: (String) -> Unit,
     onClearClick: () -> Unit,
