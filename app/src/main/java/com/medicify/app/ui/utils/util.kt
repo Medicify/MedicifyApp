@@ -14,11 +14,11 @@ fun debugPlaceholder(@DrawableRes debugPreview: Int) =
     }
 
 
-fun getFirstWord(text: String): String {
-    val index = text.indexOf(' ')
+fun String.firstWord(): String {
+    val index = this.indexOf(' ')
     return if (index > -1) {
-        text.substring(0, index).trim { it <= ' ' }
+        this.substring(0, index).trim { it <= ' ' }
     } else {
-        text
+        this
     }
 }

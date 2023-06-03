@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1045654216949",
+    "project_id": "medicify-445bd",
+    "storage_bucket": "medicify-445bd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1045654216949:android:7820713feaa3027895a5bc",
+        "android_client_info": {
+          "package_name": "com.medicify.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1045654216949-39a5siq8ncu0nhekt58mj7bhkuppf4um.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.medicify.app",
+            "certificate_hash": "496a19a89bc16d3ea26306c2b6414b0da5669d30"
+          }
+        },
+        {
+          "client_id": "1045654216949-59btbns4edfmeoan6lop43d5intdrbhs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2voMQF_3O386PVEZV_w1e0upsL_Y1o2U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1045654216949-59btbns4edfmeoan6lop43d5intdrbhs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
