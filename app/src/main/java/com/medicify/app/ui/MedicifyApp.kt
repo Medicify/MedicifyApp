@@ -29,11 +29,11 @@ import com.medicify.app.R
 import com.medicify.app.data.firebase.rememberFirebaseAuthLauncher
 import com.medicify.app.ui.navigation.BottomBar
 import com.medicify.app.ui.navigation.Screen
+import com.medicify.app.ui.screen.camera.CameraScreen
 import com.medicify.app.ui.screen.home.HomeScreen
 import com.medicify.app.ui.screen.login.LoginScreen
-import com.medicify.app.ui.theme.MedicifyTheme
-import com.medicify.app.ui.screen.camera.CameraScreen
 import com.medicify.app.ui.screen.profile.ProfileScreen
+import com.medicify.app.ui.theme.MedicifyTheme
 
 @Composable
 fun MedicifyApp(
@@ -95,7 +95,9 @@ fun MedicifyApp(
                         launcher.launch(googleSignInClient.signInIntent)
                     },
                     toCamera = {
-
+                        navController.navigate(Screen.Camera.route) {
+                            launchSingleTop = true
+                        }
                     },
                 )
             }
@@ -108,10 +110,18 @@ fun MedicifyApp(
                 )
             }
             composable(Screen.Camera.route) {
-                CameraScreen()
+                CameraScreen(
+                    onBackPressed = {
+                        navController.popBackStack()
+                    },
+                    onDrugsFound = { title ->
+
+                    },
+                    isAuthenticated = isAuthenticated
+                )
             }
-            composable(Screen.Profile.route){
-                ProfileScreen()
+            composable(Screen.Profile.route) {
+                ProfileScreen(user = user, onSignOutClicked = { Firebase.auth.signOut() })
             }
 
         }

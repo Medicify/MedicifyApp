@@ -15,8 +15,8 @@ class TextRecognizer(val onTextFound: (String) -> Unit) {
         TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
             .process(inputImage)
             .addOnSuccessListener { recognizedText ->
-//                recognizedText.getAllTextFromImage()
-                recognizedText.getTitleFromImage()
+                recognizedText.getAllTextFromImage()
+//                recognizedText.getTitleFromImage()
                 onResult(true)
             }
             .addOnFailureListener { error ->
@@ -25,25 +25,25 @@ class TextRecognizer(val onTextFound: (String) -> Unit) {
             }
     }
 
-    private fun Text.getTitleFromImage() {
-        if (this.textBlocks.isNotEmpty()){
-            var maxHeight = 0
-            var maxLine = this.textBlocks[0].lines[0].elements[0]
-
-            for (block in this.textBlocks) {
-                for (line in block.lines) {
-                    val lineHeight = line.boundingBox?.height()
-                    if (lineHeight != null) {
-                        if (lineHeight > maxHeight){
-                            maxLine = line.elements[0]
-                            maxHeight = lineHeight
-                        }
-                    }
-                }
-            }
-            onTextFound(maxLine.text)
-        }
-    }
+//    private fun Text.getTitleFromImage() {
+//        if (this.textBlocks.isNotEmpty()){
+//            var maxHeight = 0
+//            var maxLine = this.textBlocks[0].lines[0].elements[0]
+//
+//            for (block in this.textBlocks) {
+//                for (line in block.lines) {
+//                    val lineHeight = line.boundingBox?.height()
+//                    if (lineHeight != null) {
+//                        if (lineHeight > maxHeight){
+//                            maxLine = line.elements[0]
+//                            maxHeight = lineHeight
+//                        }
+//                    }
+//                }
+//            }
+//            onTextFound(maxLine.text)
+//        }
+//    }
 
     private fun Text.getAllTextFromImage(){
         if (this.textBlocks.isNotEmpty()){

@@ -35,7 +35,8 @@ fun TextRecognitionView(
     lifecycleOwner: LifecycleOwner,
     onTextFound: (String) -> Unit,
     onBackPressed: () -> Unit,
-    isCameraActive: Boolean
+    isCameraActive: Boolean,
+    isAuthenticated : Boolean,
 ) {
     val cameraProviderFuture = remember { ProcessCameraProvider.getInstance(context) }
     var preview by remember {
@@ -64,7 +65,6 @@ fun TextRecognitionView(
                                     ImageAnalyzer(onTextFound = onTextFound)
                                 )
                             }
-
                     }
 
                     val cameraSelector = CameraSelector.Builder()
@@ -102,14 +102,16 @@ fun TextRecognitionView(
                 .padding(15.dp)
                 .align(Alignment.TopStart)
         ) {
-            IconButton(
-                onClick = onBackPressed
-            ) {
-                Icon(
-                    imageVector = R.drawable.circle_arrow_left_24px.getVectorResource(),
-                    contentDescription = "back",
-                    tint = Color.White
-                )
+            if (isAuthenticated){
+                IconButton(
+                    onClick = onBackPressed
+                ) {
+                    Icon(
+                        imageVector = R.drawable.circle_arrow_left_24px.getVectorResource(),
+                        contentDescription = "back",
+                        tint = Color.White
+                    )
+                }
             }
         }
     }
