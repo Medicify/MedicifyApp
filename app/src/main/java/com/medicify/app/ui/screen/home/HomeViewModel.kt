@@ -33,17 +33,18 @@ class HomeViewModel(private val drugsRepository: DrugsRepository) : ViewModel() 
 
     fun searchDrugs(newQuery: String) = viewModelScope.launch {
         _query.value = newQuery
-        //TODO search after 3 char
-        drugsRepository.searchDrugsByName(_query.value).onStart {
-            if (newQuery.isNotEmpty()) {
-                response.value = UiState.Loading
-            } else {
-                response.value = UiState.Success(listOf())
+        if (newQuery.length > 2) {
+            drugsRepository.searchDrugsByName(_query.value).onStart {
+                if (newQuery.isNotEmpty()) {
+                    response.value = UiState.Loading
+                } else {
+                    response.value = UiState.Success(listOf())
+                }
+            }.catch {
+                response.value = UiState.Error(it.toString())
+            }.collect {
+                response.value = UiState.Success(it.response.data)
             }
-        }.catch {
-            response.value = UiState.Error(it.toString())
-        }.collect {
-            response.value = UiState.Success(it.response.data)
         }
     }
 
