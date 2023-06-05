@@ -34,8 +34,8 @@ fun LoginScreen(
     toCamera: () -> Unit,
 ) {
     Column(
-        modifier.padding(16.dp),
-        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 32.dp),
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
@@ -45,7 +45,10 @@ fun LoginScreen(
             painter = painterResource(id = ApplicationDrawable.login_image),
             contentDescription = null
         )
+        Spacer(modifier = modifier.padding(8.dp))
         Text(text = "Terhubung Dengan Kami", style = MaterialTheme.typography.headlineLarge)
+        Text(text = "Selamat datang di Medicify!", style = MaterialTheme.typography.bodyLarge)
+        Spacer(modifier = modifier.padding(20.dp))
         Button(
             onClick = toCamera,
             modifier = modifier.loginButton(),
@@ -67,7 +70,6 @@ fun LoginScreen(
                 )
             }
         )
-
         Button(
             onClick = onSignInCLick,
             modifier = modifier.loginButton(),
