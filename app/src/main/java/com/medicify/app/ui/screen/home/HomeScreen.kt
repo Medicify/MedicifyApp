@@ -1,6 +1,5 @@
 package com.medicify.app.ui.screen.home
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -50,8 +49,7 @@ fun HomeScreen(
             Row(
                 modifier
                     .height(80.dp)
-                    .padding(8.dp)
-                    .clickable { },
+                    .padding(8.dp),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {

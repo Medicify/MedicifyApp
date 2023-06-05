@@ -8,8 +8,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -23,8 +21,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.medicify.app.R
 import com.medicify.app.data.firebase.rememberFirebaseAuthLauncher
 import com.medicify.app.ui.navigation.BottomBar
@@ -34,18 +30,19 @@ import com.medicify.app.ui.screen.home.HomeScreen
 import com.medicify.app.ui.screen.login.LoginScreen
 import com.medicify.app.ui.screen.profile.ProfileScreen
 import com.medicify.app.ui.theme.MedicifyTheme
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MedicifyApp(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
+    mainViewModel: MainViewModel = koinViewModel()
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    var user by remember { mutableStateOf(Firebase.auth.currentUser) }
-    var isAuthenticated by remember {
-        mutableStateOf(user != null)
-    }
+    var user by mainViewModel.user
+    var isAuthenticated by mainViewModel.isAuthenticated
+
     val launcher = rememberFirebaseAuthLauncher(
         onAuthComplete = { result ->
             user = result.user
@@ -66,7 +63,6 @@ fun MedicifyApp(
     )
     val token = stringResource(R.string.default_web_client_id)
     val context = LocalContext.current
-
     val initialRoute = if (isAuthenticated) Screen.Home.route else Screen.Login.route
 
     Scaffold(
@@ -79,9 +75,10 @@ fun MedicifyApp(
         }
     ) { innerPadding ->
         NavHost(
+            modifier = modifier
+                .padding(innerPadding),
             navController = navController,
             startDestination = initialRoute,
-            modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screen.Login.route) {
                 LoginScreen(
@@ -121,14 +118,23 @@ fun MedicifyApp(
                 )
             }
             composable(Screen.Profile.route) {
-                ProfileScreen(user = user, onSignOutClicked = { Firebase.auth.signOut() })
+                ProfileScreen(user = user, onSignOutClicked = {
+                    mainViewModel.onSignOutClick { restartApp ->
+                        navController.navigate(restartApp) {
+                            popUpTo(restartApp) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
+                })
             }
 
         }
     }
-
-
 }
+
 
 @Preview
 @Composable
