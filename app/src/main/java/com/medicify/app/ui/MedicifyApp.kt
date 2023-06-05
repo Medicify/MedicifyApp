@@ -15,10 +15,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.medicify.app.R
@@ -26,6 +28,7 @@ import com.medicify.app.data.firebase.rememberFirebaseAuthLauncher
 import com.medicify.app.ui.navigation.BottomBar
 import com.medicify.app.ui.navigation.Screen
 import com.medicify.app.ui.screen.camera.CameraScreen
+import com.medicify.app.ui.screen.detail.DetailScreen
 import com.medicify.app.ui.screen.home.HomeScreen
 import com.medicify.app.ui.screen.login.LoginScreen
 import com.medicify.app.ui.screen.profile.ProfileScreen
@@ -101,10 +104,17 @@ fun MedicifyApp(
             composable(Screen.Home.route) {
                 HomeScreen(
                     user = user,
-                    navigateToDetail = {
-                        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                    navigateToDetail = { id ->
+                        navController.navigate(Screen.DrugsDetails.createRoute(id))
                     }
                 )
+            }
+            composable(
+                route = Screen.DrugsDetails.route,
+                arguments = listOf(navArgument("id") { type = NavType.StringType }),
+            ) {
+                val id = it.arguments?.getString("id") ?: "Not Found"
+                DetailScreen(id = id)
             }
             composable(Screen.Camera.route) {
                 CameraScreen(
@@ -112,7 +122,7 @@ fun MedicifyApp(
                         navController.popBackStack()
                     },
                     onDrugsFound = { title ->
-
+                        Toast.makeText(context, title, Toast.LENGTH_SHORT).show()
                     },
                     isAuthenticated = isAuthenticated
                 )
