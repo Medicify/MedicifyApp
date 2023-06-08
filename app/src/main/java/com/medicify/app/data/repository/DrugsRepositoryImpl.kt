@@ -1,5 +1,6 @@
 package com.medicify.app.data.repository
 
+import com.medicify.app.data.model.ApiDetailResponse
 import com.medicify.app.data.model.ApiResponse
 import com.medicify.app.data.model.TitleRequestForm
 import com.medicify.app.data.remote.ApiService
@@ -22,6 +23,11 @@ class DrugsRepositoryImpl(
 
     override suspend fun getTitleFromOCRText(text: TitleRequestForm) : Flow<ApiResponse> = flow {
         emit(apiService.getDrugsTitleFromOCRText(text))
+    }.flowOn(Dispatchers.IO)
+
+
+    override suspend fun getDrugById(id : String) : Flow<ApiDetailResponse> = flow {
+        emit(apiService.getDrugById(id))
     }.flowOn(Dispatchers.IO)
 
 }

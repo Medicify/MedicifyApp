@@ -47,7 +47,7 @@ fun DrugsCardItem(
             )
             .wrapContentHeight()
             .fillMaxWidth()
-            .clickable { navigateToDetail(drug.title) },
+            .clickable { navigateToDetail(drug.id.trim()) },
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
     ) {

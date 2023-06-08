@@ -1,5 +1,6 @@
 package com.medicify.app.data.remote
 
+import com.medicify.app.data.model.ApiDetailResponse
 import com.medicify.app.data.model.ApiResponse
 import com.medicify.app.data.model.IdRequestForm
 import com.medicify.app.data.model.TitleRequestForm
@@ -14,9 +15,9 @@ interface ApiService {
     suspend fun getAllDrugs(): ApiResponse
 
     @GET("drugs/{id}")
-    suspend fun getDrugsById(
+    suspend fun getDrugById(
         @Path("id") id: String
-    ): ApiResponse
+    ): ApiDetailResponse
 
     @GET("drugs")
     suspend fun getDrugsByName(

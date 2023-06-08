@@ -51,7 +51,6 @@ fun DetailScreen(
     when (val result = detailViewModel.response.value) {
         is UiState.Loading -> {
             CircularLoading(modifier)
-
             detailViewModel.getDrugsDetail(id)
         }
 
@@ -94,7 +93,7 @@ fun DetailScreen(
 @Composable
 private fun DetailContent(
     modifier: Modifier,
-    drug: DrugItem
+    drug: DrugItem,
 ) {
     val expandableItems = remember {
         arrayListOf(
