@@ -1,7 +1,5 @@
 package com.medicify.app.ui.screen.detail
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,24 +10,23 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ExpandLess
-import androidx.compose.material.icons.rounded.ExpandMore
+import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -42,11 +39,14 @@ import com.medicify.app.ui.utils.PreviewDataSource
 import com.medicify.app.ui.utils.firstWord
 import org.koin.androidx.compose.koinViewModel
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier,
     id: String,
-    detailViewModel: DetailViewModel = koinViewModel()
+    detailViewModel: DetailViewModel = koinViewModel(),
+    onClosePressed: () -> Unit,
 ) {
     when (val result = detailViewModel.response.value) {
         is UiState.Loading -> {
@@ -56,7 +56,35 @@ fun DetailScreen(
         }
 
         is UiState.Success -> {
-            DetailContent(modifier, result.data)
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        modifier = modifier.padding(horizontal = 8.dp),
+                        title = {},
+                        navigationIcon = {
+                            Icon(
+                                imageVector = Icons.Rounded.Info,
+                                contentDescription = "Terdeteksi ${result.data.title.firstWord()}",
+                                tint = MaterialTheme.colorScheme.secondary
+                            )
+                        },
+                        actions = {
+                            IconButton(
+                                onClick = onClosePressed
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Close,
+                                    contentDescription = "Scan Ulang Obat?",
+                                )
+                            }
+                        }
+                    )
+                }
+            ) {
+                Column(modifier.padding(it)) {
+                    DetailContent(modifier, result.data)
+                }
+            }
         }
 
         is UiState.Error -> {}
@@ -77,7 +105,6 @@ private fun DetailContent(
             ExpandableItem(title = "Kontra Indikasi", content = drug.indicationContra),
         )
     }
-
     Column(
         modifier
             .verticalScroll(rememberScrollState())
@@ -90,7 +117,7 @@ private fun DetailContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(
-                model = drug.image,
+                model = drug.imageCustom,
                 modifier = modifier
                     .size(200.dp)
                     .drawBehind {
@@ -111,55 +138,18 @@ private fun DetailContent(
             Text(text = drug.type ?: "", style = MaterialTheme.typography.headlineMedium)
         }
         expandableItems.forEach { item ->
-            Expandable(modifier, content = item.content, title = item.title)
-        }
-    }
-}
-
-@Composable
-private fun Expandable(
-    modifier: Modifier,
-    content: String?,
-    title: String,
-) {
-    var isExpanded by remember { mutableStateOf(false) }
-    Column {
-        Row(
-            modifier = modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(text = title, style = MaterialTheme.typography.headlineMedium)
-            IconButton(onClick = { isExpanded = !isExpanded }) {
-                Icon(
-                    imageVector = if (!isExpanded) Icons.Rounded.ExpandMore else Icons.Rounded.ExpandLess,
-                    contentDescription = if (!isExpanded) "Baca $title Obat?" else "Tutup $title Obat?"
-                )
-            }
-        }
-        AnimatedVisibility(visible = isExpanded, modifier = modifier.animateContentSize()) {
-            Text(text = content ?: "", textAlign = TextAlign.Justify)
-        }
-    }
-}
-
-@Preview
-@Composable
-fun ExpandablePreview() {
-    MedicifyTheme {
-        Surface(
-            color = MaterialTheme.colorScheme.background,
-        ) {
             Expandable(
-                modifier = Modifier,
-                content = PreviewDataSource.getDrug()[0].description,
-                title = "Deskirpsi"
+                modifier,
+                content = item.content,
+                title = item.title,
+                isExpanded = item.isExpanded.value,
+                onExpandToggle = {
+                    item.isExpanded.value = it
+                }
             )
         }
     }
-
 }
-
 
 @Preview
 @Composable
