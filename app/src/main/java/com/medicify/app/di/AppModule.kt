@@ -28,8 +28,8 @@ val appModule = module {
         }.build()
 
         val retrofit = Retrofit.Builder().apply {
-//            baseUrl(BuildConfig.API_BASE_URL)
-            baseUrl("http://34.36.211.221/api/")
+            baseUrl(BuildConfig.API_BASE_URL)
+//            baseUrl("http://34.36.211.221/api/")
             addConverterFactory(GsonConverterFactory.create())
             client(client)
         }.build()
