@@ -1,4 +1,4 @@
-package com.medicify.app.ui.component
+package com.medicify.app.ui.screen.home
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
