@@ -108,7 +108,7 @@ fun TextRecognitionView(
                 ) {
                     Icon(
                         imageVector = R.drawable.circle_arrow_left_24px.getVectorResource(),
-                        contentDescription = "back",
+                        contentDescription = "kembali ke home?",
                         tint = Color.White
                     )
                 }
