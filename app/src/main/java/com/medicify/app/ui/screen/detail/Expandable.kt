@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ExpandLess
 import androidx.compose.material.icons.rounded.ExpandMore
+import androidx.compose.material.icons.rounded.Remove
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -47,7 +48,15 @@ fun Expandable(
             }
         }
         AnimatedVisibility(visible = isExpanded, modifier = modifier.animateContentSize()) {
-            Text(text = content ?: "-", textAlign = TextAlign.Justify)
+            if (content != null) {
+                Text(text = content, textAlign = TextAlign.Justify)
+            } else {
+                Icon(
+                    imageVector = Icons.Rounded.Remove,
+                    contentDescription = "Tidak ada informasi pada $title",
+                    tint = MaterialTheme.colorScheme.scrim
+                )
+            }
         }
     }
 }

@@ -5,8 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.medicify.app.data.model.DrugItem
+import com.medicify.app.data.model.ExpandableItem
 import com.medicify.app.data.repository.DrugsRepository
 import com.medicify.app.ui.common.UiState
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -14,6 +17,23 @@ import kotlinx.coroutines.launch
 class DetailViewModel(private val drugsRepository: DrugsRepository) : ViewModel() {
 
     val response: MutableState<UiState<DrugItem>> = mutableStateOf(UiState.Loading)
+
+    private val _expandableItems = MutableStateFlow<UiState<List<ExpandableItem>>>(UiState.Loading)
+
+    val expandableItems: Flow<UiState<List<ExpandableItem>>>
+        get() = _expandableItems
+
+    fun setExpandableItems(drug: DrugItem) {
+        val expandableItems = arrayListOf(
+            ExpandableItem(title = "Deskripsi", content = drug.description),
+            ExpandableItem(title = "Indikasi", content = drug.indication),
+            ExpandableItem(title = "Aturan Pakai", content = drug.howToUse),
+            ExpandableItem(title = "Dosis", content = drug.dose),
+            ExpandableItem(title = "Kontra Indikasi", content = drug.indicationContra),
+        )
+        _expandableItems.value = UiState.Success(expandableItems)
+    }
+
 
     fun getDrugsDetail(id: String) {
         viewModelScope.launch {

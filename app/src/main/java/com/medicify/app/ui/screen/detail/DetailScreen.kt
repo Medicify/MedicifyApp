@@ -21,7 +21,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -31,7 +31,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.medicify.app.data.model.DrugItem
-import com.medicify.app.data.model.ExpandableItem
 import com.medicify.app.ui.common.UiState
 import com.medicify.app.ui.component.CircularLoading
 import com.medicify.app.ui.theme.MedicifyTheme
@@ -81,7 +80,7 @@ fun DetailScreen(
                 }
             ) {
                 Column(modifier.padding(it)) {
-                    DetailContent(modifier, result.data)
+                    DetailContent(modifier, result.data, detailViewModel)
                 }
             }
         }
@@ -94,60 +93,75 @@ fun DetailScreen(
 private fun DetailContent(
     modifier: Modifier,
     drug: DrugItem,
+    detailViewModel: DetailViewModel,
 ) {
-    val expandableItems = remember {
-        arrayListOf(
-            ExpandableItem(title = "Deskripsi", content = drug.description),
-            ExpandableItem(title = "Indikasi", content = drug.indication),
-            ExpandableItem(title = "Aturan Pakai", content = drug.howToUse),
-            ExpandableItem(title = "Dosis", content = drug.dose),
-            ExpandableItem(title = "Kontra Indikasi", content = drug.indicationContra),
-        )
-    }
-    Column(
-        modifier
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp)
-    ) {
-        Column(
-            modifier = modifier
-                .padding(horizontal = 16.dp, vertical = 24.dp)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            AsyncImage(
-                model = drug.imageCustom,
-                modifier = modifier
-                    .size(200.dp)
-                    .drawBehind {
-                        this.drawRoundRect(
-                            color = Color(109, 137, 232),
-                            cornerRadius = CornerRadius(10F, 10F)
+    detailViewModel.expandableItems.collectAsState(initial = UiState.Loading).value.let { expandableItems ->
+        when (expandableItems) {
+            is UiState.Loading -> {
+                detailViewModel.setExpandableItems(drug)
+            }
+
+            is UiState.Success -> {
+                Column(
+                    modifier
+                        .verticalScroll(rememberScrollState())
+                        .padding(horizontal = 16.dp)
+                ) {
+                    Column(
+                        modifier = modifier
+                            .padding(
+                                start = 16.dp,
+                                end = 16.dp,
+                                bottom = 24.dp,
+                            )
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        AsyncImage(
+                            model = drug.imageCustom,
+                            modifier = modifier
+                                .size(200.dp)
+                                .drawBehind {
+                                    this.drawRoundRect(
+                                        color = Color(109, 137, 232),
+                                        cornerRadius = CornerRadius(10F, 10F)
+                                    )
+                                },
+                            contentDescription = "gambar kemasan ${drug.title.firstWord()}"
                         )
-                    },
-                contentDescription = "gambar kemasan ${drug.title.firstWord()}"
-            )
-        }
-        Row(
-            modifier = modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(text = drug.title.firstWord(), style = MaterialTheme.typography.headlineLarge)
-            Text(text = drug.type ?: "", style = MaterialTheme.typography.headlineMedium)
-        }
-        expandableItems.forEach { item ->
-            Expandable(
-                modifier,
-                content = item.content,
-                title = item.title,
-                isExpanded = item.isExpanded.value,
-                onExpandToggle = {
-                    item.isExpanded.value = it
+                    }
+                    Row(
+                        modifier = modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.Bottom,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = drug.title.firstWord(),
+                            style = MaterialTheme.typography.headlineLarge
+                        )
+                        Text(
+                            text = drug.type ?: "",
+                            style = MaterialTheme.typography.headlineMedium
+                        )
+                    }
+                    expandableItems.data.forEach { item ->
+                        Expandable(
+                            modifier,
+                            content = item.content,
+                            title = item.title,
+                            isExpanded = item.isExpanded.value,
+                            onExpandToggle = {
+                                item.isExpanded.value = it
+                            }
+                        )
+                    }
                 }
-            )
+            }
+
+            is UiState.Error -> {}
         }
     }
+
 }
 
 @Preview
@@ -158,7 +172,11 @@ fun DetailContentPreview() {
             color = MaterialTheme.colorScheme.background,
             modifier = Modifier.fillMaxSize()
         ) {
-            DetailContent(modifier = Modifier, drug = PreviewDataSource.getDrug()[0])
+            DetailContent(
+                modifier = Modifier,
+                drug = PreviewDataSource.getDrug()[0],
+                detailViewModel = koinViewModel()
+            )
         }
     }
 }
