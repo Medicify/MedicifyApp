@@ -42,7 +42,7 @@ fun LoginScreen(
             modifier = modifier
                 .fillMaxWidth()
                 .height(200.dp),
-            painter = painterResource(id = ApplicationDrawable.login_image),
+            painter = painterResource(id = ApplicationDrawable.login_image400px),
             contentDescription = null
         )
         Spacer(modifier = modifier.padding(8.dp))
@@ -89,19 +89,6 @@ fun LoginScreen(
                 )
             }
         )
-
-//        if (user == null) {
-//        }
-
-//        else {
-//            Text("Welcome ${user!!.displayName?.firstWord()}")
-//            Button(onClick = {
-//                Firebase.auth.signOut()
-//                user = null
-//            }) {
-//                Text("Sign out")
-//            }
-//        }
     }
 
 }

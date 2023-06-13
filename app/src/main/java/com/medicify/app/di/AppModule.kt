@@ -16,7 +16,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val appModule = module {
-
     single {
         val loggingInterceptor = if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -29,7 +28,6 @@ val appModule = module {
 
         val retrofit = Retrofit.Builder().apply {
             baseUrl(BuildConfig.API_BASE_URL)
-//            baseUrl("http://34.36.211.221/api/")
             addConverterFactory(GsonConverterFactory.create())
             client(client)
         }.build()
