@@ -114,7 +114,9 @@ fun MedicifyApp(
                 arguments = listOf(navArgument("id") { type = NavType.StringType }),
             ) {
                 val id = it.arguments?.getString("id") ?: "Not Found"
-                DetailScreen(id = id)
+                DetailScreen(id = id, onClosePressed = {
+                    navController.popBackStack()
+                })
             }
             composable(Screen.Camera.route) {
                 CameraScreen(

@@ -26,7 +26,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.medicify.app.ui.common.UiState
 import com.medicify.app.ui.component.CircularLoading
 import com.medicify.app.ui.component.DrugsCardList
-import com.medicify.app.ui.component.SearchBar
 import com.medicify.app.ui.utils.firstWord
 import org.koin.androidx.compose.koinViewModel
 
