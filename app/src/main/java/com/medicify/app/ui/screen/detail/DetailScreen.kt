@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Info
@@ -30,9 +30,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.medicify.app.data.model.DrugItem
+import com.medicify.app.data.model.DrugsDetailResponse
+import com.medicify.app.data.model.IdRequestForm
 import com.medicify.app.ui.common.UiState
 import com.medicify.app.ui.component.CircularLoading
+import com.medicify.app.ui.component.DrugsCardItem
 import com.medicify.app.ui.theme.MedicifyTheme
 import com.medicify.app.ui.utils.PreviewDataSource
 import com.medicify.app.ui.utils.firstWord
@@ -50,7 +52,7 @@ fun DetailScreen(
     when (val result = detailViewModel.response.value) {
         is UiState.Loading -> {
             CircularLoading(modifier)
-            detailViewModel.getDrugsDetail(id)
+            detailViewModel.getDrugsDetailWithRecommendation(IdRequestForm(id))
         }
 
         is UiState.Success -> {
@@ -62,7 +64,7 @@ fun DetailScreen(
                         navigationIcon = {
                             Icon(
                                 imageVector = Icons.Rounded.Info,
-                                contentDescription = "Terdeteksi ${result.data.title.firstWord()}",
+                                contentDescription = "Terdeteksi ${result.data.data.title.firstWord()}",
                                 tint = MaterialTheme.colorScheme.secondary
                             )
                         },
@@ -79,8 +81,18 @@ fun DetailScreen(
                     )
                 }
             ) {
-                Column(modifier.padding(it)) {
-                    DetailContent(modifier, result.data, detailViewModel)
+                LazyColumn(
+                    modifier
+                        .padding(it)
+                ) {
+                    item {
+                        DetailContent(modifier, result.data, detailViewModel)
+                    }
+                    if (result.data.recommendation != null) {
+                        items(result.data.recommendation, key = { item -> item.id }) { drug ->
+                            DrugsCardItem(modifier, drug, navigateToDetail = {}, clickable = false)
+                        }
+                    }
                 }
             }
         }
@@ -92,19 +104,18 @@ fun DetailScreen(
 @Composable
 private fun DetailContent(
     modifier: Modifier,
-    drug: DrugItem,
+    drugResponse: DrugsDetailResponse,
     detailViewModel: DetailViewModel,
 ) {
     detailViewModel.expandableItems.collectAsState(initial = UiState.Loading).value.let { expandableItems ->
         when (expandableItems) {
             is UiState.Loading -> {
-                detailViewModel.setExpandableItems(drug)
+                detailViewModel.setExpandableItems(drugResponse.data)
             }
 
             is UiState.Success -> {
                 Column(
                     modifier
-                        .verticalScroll(rememberScrollState())
                         .padding(horizontal = 16.dp)
                 ) {
                     Column(
@@ -118,7 +129,7 @@ private fun DetailContent(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         AsyncImage(
-                            model = drug.imageCustom,
+                            model = drugResponse.data.imageCustom,
                             modifier = modifier
                                 .size(200.dp)
                                 .drawBehind {
@@ -127,7 +138,7 @@ private fun DetailContent(
                                         cornerRadius = CornerRadius(10F, 10F)
                                     )
                                 },
-                            contentDescription = "gambar kemasan ${drug.title.firstWord()}"
+                            contentDescription = "gambar kemasan ${drugResponse.data.title.firstWord()}"
                         )
                     }
                     Row(
@@ -136,11 +147,11 @@ private fun DetailContent(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = drug.title.firstWord(),
+                            text = drugResponse.data.title.firstWord(),
                             style = MaterialTheme.typography.headlineLarge
                         )
                         Text(
-                            text = drug.type ?: "",
+                            text = drugResponse.data.type ?: "",
                             style = MaterialTheme.typography.headlineMedium
                         )
                     }
@@ -155,6 +166,10 @@ private fun DetailContent(
                             }
                         )
                     }
+                    Text(
+                        text = "Rekomendasi Obat Serupa",
+                        style = MaterialTheme.typography.headlineMedium
+                    )
                 }
             }
 
@@ -174,7 +189,11 @@ fun DetailContentPreview() {
         ) {
             DetailContent(
                 modifier = Modifier,
-                drug = PreviewDataSource.getDrug()[0],
+                drugResponse = DrugsDetailResponse(
+                    0,
+                    PreviewDataSource.getDrug()[0],
+                    PreviewDataSource.getDrug()
+                ),
                 detailViewModel = koinViewModel()
             )
         }

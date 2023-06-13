@@ -7,17 +7,11 @@ import com.medicify.app.data.model.TitleRequestForm
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
     @GET("drugs")
     suspend fun getAllDrugs(): ApiResponse
-
-    @GET("drugs/{id}")
-    suspend fun getDrugById(
-        @Path("id") id: String
-    ): ApiDetailResponse
 
     @GET("drugs")
     suspend fun getDrugsByName(
@@ -32,6 +26,6 @@ interface ApiService {
     @POST("recommendation")
     suspend fun getDrugsDetailWithRecommendation(
         @Body id: IdRequestForm
-    ): ApiResponse
+    ): ApiDetailResponse
 
 }

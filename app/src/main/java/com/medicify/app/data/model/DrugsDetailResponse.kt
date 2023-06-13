@@ -4,10 +4,12 @@ import com.google.gson.annotations.SerializedName
 
 data class DrugsDetailResponse(
 
-	@field:SerializedName("total")
-	val total: Int,
+    @field:SerializedName("total")
+    val total: Int,
 
-	@field:SerializedName("data")
-	val data: DrugItem,
+    @field:SerializedName("data")
+    val data: DrugItem,
 
+    @field:SerializedName("recommendation")
+    val recommendation: List<DrugItem>?,
 )
