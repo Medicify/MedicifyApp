@@ -19,7 +19,7 @@ interface ApiService {
     ): ApiResponse
 
     @POST("ocr")
-    suspend fun getDrugsTitleFromOCRText(
+    suspend fun getDrugsFromOCRText(
         @Body title: TitleRequestForm
     ): ApiResponse
 

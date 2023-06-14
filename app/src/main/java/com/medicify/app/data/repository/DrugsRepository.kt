@@ -8,7 +8,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface DrugsRepository {
     fun getAllDrugs(): Flow<ApiResponse>
-    suspend fun getTitleFromOCRText(text: TitleRequestForm): Flow<ApiResponse>
+
+    suspend fun getDrugsFromOCRText(text: TitleRequestForm): Flow<ApiResponse>
+
     fun searchDrugsByName(query: String): Flow<ApiResponse>
+
     suspend fun getDrugsDetailWithRecommendation(id: IdRequestForm): Flow<ApiDetailResponse>
 }

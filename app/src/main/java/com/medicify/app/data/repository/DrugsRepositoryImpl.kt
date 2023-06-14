@@ -22,8 +22,8 @@ class DrugsRepositoryImpl(
         emit(apiService.getAllDrugs())
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getTitleFromOCRText(text: TitleRequestForm): Flow<ApiResponse> = flow {
-        emit(apiService.getDrugsTitleFromOCRText(text))
+    override suspend fun getDrugsFromOCRText(text: TitleRequestForm): Flow<ApiResponse> = flow {
+        emit(apiService.getDrugsFromOCRText(text))
     }.flowOn(Dispatchers.IO)
 
     override suspend fun getDrugsDetailWithRecommendation(id: IdRequestForm): Flow<ApiDetailResponse> =

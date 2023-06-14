@@ -1,6 +1,5 @@
 package com.medicify.app.ui
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -123,8 +122,10 @@ fun MedicifyApp(
                     onBackPressed = {
                         navController.popBackStack()
                     },
-                    onDrugsFound = { title ->
-                        Toast.makeText(context, title, Toast.LENGTH_SHORT).show()
+                    onDrugsFound = { id ->
+                        navController.navigate(Screen.DrugsDetails.createRoute(id)) {
+                            launchSingleTop = true
+                        }
                     },
                     isAuthenticated = isAuthenticated
                 )

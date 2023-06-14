@@ -1,6 +1,5 @@
 package com.medicify.app.mlkit.ocr
 
-import android.content.Context
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -8,7 +7,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -21,23 +20,24 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleOwner
 import com.medicify.app.R
 import com.medicify.app.ui.utils.getVectorResource
 import java.util.concurrent.Executors
 
 @Composable
 fun TextRecognitionView(
-    context: Context,
-    lifecycleOwner: LifecycleOwner,
     onTextFound: (String) -> Unit,
     onBackPressed: () -> Unit,
-    isCameraActive: Boolean,
-    isAuthenticated : Boolean,
+    isAuthenticated: Boolean,
 ) {
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     val cameraProviderFuture = remember { ProcessCameraProvider.getInstance(context) }
     var preview by remember {
         mutableStateOf<Preview?>(null)
@@ -48,8 +48,7 @@ fun TextRecognitionView(
 
     Box {
         AndroidView(modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.7f),
+            .fillMaxSize(),
             factory = { androidViewContext ->
                 val previewView = PreviewView(androidViewContext)
                 cameraProviderFuture.addListener({
@@ -73,19 +72,12 @@ fun TextRecognitionView(
 
                     cameraProvider.unbindAll()
 
-                    // it suppose to stop the camera when a text is detected
-                    if (isCameraActive) {
-                        cameraProvider.bindToLifecycle(
-                            lifecycleOwner,
-                            cameraSelector,
-                            imageAnalyzer,
-                            preview
-                        )
-                    } else {
-                        cameraProvider.unbindAll()
-                    }
-
-
+                    cameraProvider.bindToLifecycle(
+                        lifecycleOwner,
+                        cameraSelector,
+                        imageAnalyzer,
+                        preview
+                    )
                 }, executor)
 
                 preview = Preview.Builder().build().apply {
@@ -102,7 +94,7 @@ fun TextRecognitionView(
                 .padding(15.dp)
                 .align(Alignment.TopStart)
         ) {
-            if (isAuthenticated){
+            if (isAuthenticated) {
                 IconButton(
                     onClick = onBackPressed
                 ) {

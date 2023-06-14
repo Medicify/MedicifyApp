@@ -7,7 +7,6 @@ import com.medicify.app.data.model.TitleRequestForm
 import com.medicify.app.data.repository.DrugsRepository
 import com.medicify.app.ui.common.UiState
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
@@ -15,20 +14,26 @@ import kotlinx.coroutines.launch
 
 class CameraViewModel(private val drugsRepository: DrugsRepository) : ViewModel() {
 
-    private val _title: MutableSharedFlow<UiState<List<DrugItem>>> = MutableSharedFlow()
-//    val title = _title.asSharedFlow()
+    private val _listOfDrugItem: MutableSharedFlow<UiState<List<DrugItem>>> = MutableSharedFlow()
+    val listOfDrugItem = _listOfDrugItem.asSharedFlow()
 
 
-    fun getTitle(text: String): SharedFlow<UiState<List<DrugItem>>> {
+    fun addExtractedText(text: String) {
         viewModelScope.launch {
-            drugsRepository.getTitleFromOCRText(TitleRequestForm(text)).onStart {
-                _title.emit(UiState.Loading)
+            drugsRepository.getDrugsFromOCRText(TitleRequestForm(text)).onStart {
+                _listOfDrugItem.emit(UiState.Loading)
             }.catch {
-                _title.emit(UiState.Error(it.toString()))
+                _listOfDrugItem.emit(UiState.Error(it.toString()))
             }.collect {
-                _title.emit(UiState.Success(it.response.data))
+                _listOfDrugItem.emit(UiState.Success(it.response.data))
             }
         }
-        return _title.asSharedFlow()
     }
+
+    fun clearList() {
+        viewModelScope.launch {
+            _listOfDrugItem.emit(UiState.Success(listOf()))
+        }
+    }
+
 }
