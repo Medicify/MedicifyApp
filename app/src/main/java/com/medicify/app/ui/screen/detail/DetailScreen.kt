@@ -1,8 +1,10 @@
 package com.medicify.app.ui.screen.detail
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,6 +23,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,7 +43,6 @@ import com.medicify.app.ui.utils.PreviewDataSource
 import com.medicify.app.ui.utils.firstWord
 import org.koin.androidx.compose.koinViewModel
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
@@ -49,10 +51,15 @@ fun DetailScreen(
     detailViewModel: DetailViewModel = koinViewModel(),
     onClosePressed: () -> Unit,
 ) {
+    Log.d("okhttp", "DetailScreen: $id")
+
+    LaunchedEffect(key1 = true) {
+        detailViewModel.getDrugsDetailWithRecommendation(IdRequestForm(id))
+    }
+
     when (val result = detailViewModel.response.value) {
         is UiState.Loading -> {
             CircularLoading(modifier)
-            detailViewModel.getDrugsDetailWithRecommendation(IdRequestForm(id))
         }
 
         is UiState.Success -> {
@@ -166,8 +173,9 @@ private fun DetailContent(
                             }
                         )
                     }
+                    Spacer(modifier = modifier.padding(16.dp))
                     Text(
-                        text = "Rekomendasi Obat Serupa",
+                        text = "Rekomendasi Obat Serupa :",
                         style = MaterialTheme.typography.headlineMedium
                     )
                 }
