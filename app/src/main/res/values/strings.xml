@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">Medicify</string>
     <string name="search_placeholder">Masukkan nama obat di sini…</string>
+    <string name="navigation_item_home">Home</string>
+    <string name="navigation_item_camera">Camera</string>
+    <string name="navigation_item_profile">Profile</string>
+    <string name="similiar_drugs_recomendation">Rekomendasi Obat Serupa :</string>
+    <string name="mulai_cari_obat">Mulai Cari Obat</string>
+    <string name="terhubung_dengan_kami">Terhubung Dengan Kami</string>
+    <string name="selamat_datang_di_medicify">Selamat datang di Medicify!</string>
+    <string name="lanjut_tanpa_masuk">Lanjut tanpa masuk</string>
+    <string name="masuk_dengan_google">Masuk dengan Google</string>
+    <string name="foto_profile">foto profile</string>
+    <string name="confirmation">Konfirmasi</string>
+    <string name="exit_confirmation">Apakah anda yakin ingin keluar ?</string>
+    <string name="cancel">Batal</string>
+    <string name="logout">Keluar</string>
 </resources>

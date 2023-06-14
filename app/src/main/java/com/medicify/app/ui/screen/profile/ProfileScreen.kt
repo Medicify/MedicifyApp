@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,7 +55,7 @@ fun ProfileScreen(
                     .clip(CircleShape),
                 placeholder = debugPlaceholder(debugPreview = R.drawable.drug_placeholder),
                 model = user?.photoUrl,
-                contentDescription = "photo profile"
+                contentDescription = stringResource(R.string.foto_profile)
             )
             Spacer(modifier = modifier.padding(8.dp))
             Text(
@@ -83,12 +84,12 @@ private fun SignOutButton(modifier: Modifier, signOut: () -> Unit) {
 
     if (showWarningDialog) {
         AlertDialog(
-            title = { Text("Konfirmasi") },
-            text = { Text("Apakah anda yakin ingin keluar ?", fontSize = 16.sp) },
+            title = { Text(stringResource(R.string.confirmation)) },
+            text = { Text(stringResource(R.string.exit_confirmation), fontSize = 16.sp) },
             dismissButton = {
                 Button(
                     onClick = { showWarningDialog = false },
-                    content = { Text(text = "Batal", fontSize = 14.sp) },
+                    content = { Text(text = stringResource(R.string.cancel), fontSize = 14.sp) },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.Transparent,
                         contentColor = MaterialTheme.colorScheme.primary
@@ -97,7 +98,7 @@ private fun SignOutButton(modifier: Modifier, signOut: () -> Unit) {
             },
             confirmButton = {
                 Button(
-                    content = { Text(text = "Keluar", fontSize = 14.sp) },
+                    content = { Text(text = stringResource(R.string.logout), fontSize = 14.sp) },
                     onClick = {
                         signOut()
                         showWarningDialog = false

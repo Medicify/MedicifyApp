@@ -20,17 +20,6 @@ class HomeViewModel(private val drugsRepository: DrugsRepository) : ViewModel() 
 
     val response: MutableState<UiState<List<DrugItem>>> = mutableStateOf(UiState.Success(listOf()))
 
-//    fun getAllDrugs() =
-//        viewModelScope.launch {
-//            drugsRepository.getAllDrugs().onStart {
-//                response.value = UiState.Loading
-//            }.catch {
-//                response.value = UiState.Error(it.toString())
-//            }.collect {
-//                response.value = UiState.Success(it.response.data)
-//            }
-//        }
-
     fun searchDrugs(newQuery: String) = viewModelScope.launch {
         _query.value = newQuery
         if (newQuery.length > 2) {

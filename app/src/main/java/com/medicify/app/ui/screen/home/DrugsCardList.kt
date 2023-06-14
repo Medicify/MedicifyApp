@@ -1,4 +1,4 @@
-package com.medicify.app.ui.component
+package com.medicify.app.ui.screen.home
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.medicify.app.data.model.DrugItem
+import com.medicify.app.ui.component.DrugsCardItem
 import com.medicify.app.ui.theme.MedicifyTheme
 import com.medicify.app.ui.utils.PreviewDataSource
 

@@ -25,6 +25,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -33,7 +34,6 @@ import com.medicify.app.R
 import com.medicify.app.di.appModule
 import com.medicify.app.ui.common.UiState
 import com.medicify.app.ui.component.CircularLoading
-import com.medicify.app.ui.component.DrugsCardList
 import com.medicify.app.ui.theme.MedicifyTheme
 import com.medicify.app.ui.utils.firstWord
 import org.koin.androidx.compose.koinViewModel
@@ -118,7 +118,7 @@ fun HomeScreen(
                         )
                         Spacer(modifier = modifier.padding(8.dp))
                         Text(
-                            text = "Mulai Cari Obat",
+                            text = stringResource(R.string.mulai_cari_obat),
                             style = MaterialTheme.typography.headlineLarge
                         )
 

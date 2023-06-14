@@ -1,6 +1,5 @@
 package com.medicify.app.ui.screen.detail
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,9 +29,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.medicify.app.R
 import com.medicify.app.data.model.DrugsDetailResponse
 import com.medicify.app.data.model.IdRequestForm
 import com.medicify.app.ui.common.UiState
@@ -51,8 +52,6 @@ fun DetailScreen(
     detailViewModel: DetailViewModel = koinViewModel(),
     onClosePressed: () -> Unit,
 ) {
-    Log.d("okhttp", "DetailScreen: $id")
-
     LaunchedEffect(key1 = true) {
         detailViewModel.getDrugsDetailWithRecommendation(IdRequestForm(id))
     }
@@ -81,7 +80,7 @@ fun DetailScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.Close,
-                                    contentDescription = "Scan Ulang Obat?",
+                                    contentDescription = "tekan dua kali untuk, scan ulang obat, lewati untuk membaca detail obat",
                                 )
                             }
                         }
@@ -175,7 +174,7 @@ private fun DetailContent(
                     }
                     Spacer(modifier = modifier.padding(16.dp))
                     Text(
-                        text = "Rekomendasi Obat Serupa :",
+                        text = stringResource(R.string.similiar_drugs_recomendation),
                         style = MaterialTheme.typography.headlineMedium
                     )
                 }
