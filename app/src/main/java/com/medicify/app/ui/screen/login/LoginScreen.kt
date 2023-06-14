@@ -16,10 +16,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.invisibleToUser
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,6 +32,7 @@ import com.medicify.app.ui.utils.loginButton
 import com.medicify.app.R.drawable as ApplicationDrawable
 
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
@@ -48,8 +52,16 @@ fun LoginScreen(
             contentDescription = null
         )
         Spacer(modifier = modifier.padding(8.dp))
-        Text(text = stringResource(R.string.terhubung_dengan_kami), style = MaterialTheme.typography.headlineLarge)
-        Text(text = stringResource(R.string.selamat_datang_di_medicify), style = MaterialTheme.typography.bodyLarge)
+
+        Text(
+            modifier = modifier.semantics { invisibleToUser() },
+            text = stringResource(R.string.terhubung_dengan_kami),
+            style = MaterialTheme.typography.headlineLarge
+        )
+        Text(
+            text = stringResource(R.string.selamat_datang_di_medicify),
+            style = MaterialTheme.typography.bodyLarge
+        )
         Spacer(modifier = modifier.padding(20.dp))
         Button(
             onClick = toCamera,
@@ -83,7 +95,10 @@ fun LoginScreen(
                 contentColor = Color.Black,
             ),
             content = {
-                Text(stringResource(R.string.masuk_dengan_google), style = MaterialTheme.typography.headlineMedium)
+                Text(
+                    stringResource(R.string.masuk_dengan_google),
+                    style = MaterialTheme.typography.headlineMedium
+                )
                 Spacer(modifier = modifier.padding(8.dp))
                 Image(
                     painterResource(id = ApplicationDrawable.google_logo_24px),

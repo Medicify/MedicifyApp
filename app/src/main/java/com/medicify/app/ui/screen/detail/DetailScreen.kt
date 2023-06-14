@@ -80,7 +80,7 @@ fun DetailScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.Close,
-                                    contentDescription = "tekan dua kali untuk, scan ulang obat, lewati untuk membaca detail obat",
+                                    contentDescription = stringResource(R.string.close_button_description),
                                 )
                             }
                         }
@@ -116,6 +116,7 @@ private fun DetailContent(
     detailViewModel.expandableItems.collectAsState(initial = UiState.Loading).value.let { expandableItems ->
         when (expandableItems) {
             is UiState.Loading -> {
+                CircularLoading(modifier = modifier)
                 detailViewModel.setExpandableItems(drugResponse.data)
             }
 

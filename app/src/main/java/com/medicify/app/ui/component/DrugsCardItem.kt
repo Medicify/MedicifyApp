@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
@@ -22,6 +23,9 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.invisibleToUser
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,6 +37,7 @@ import com.medicify.app.ui.utils.PreviewDataSource
 import com.medicify.app.ui.utils.debugPlaceholder
 import com.medicify.app.ui.utils.firstWord
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun DrugsCardItem(
     modifier: Modifier = Modifier,
@@ -56,13 +61,16 @@ fun DrugsCardItem(
     ) {
         Row(
             modifier
+                .semantics(mergeDescendants = true) {
+                    contentDescription = "${drug.title.firstWord()}  ${drug.type}"
+                }
                 .padding(8.dp)
                 .fillMaxWidth()
         ) {
             AsyncImage(
                 model = drug.imageCustom,
                 placeholder = debugPlaceholder(debugPreview = R.drawable.drug_placeholder),
-                contentDescription = drug.title,
+                contentDescription = null,
                 contentScale = ContentScale.FillWidth,
                 modifier = modifier
                     .size(80.dp)
@@ -79,11 +87,15 @@ fun DrugsCardItem(
                 modifier = modifier
             ) {
                 if (drug.type != null) Text(
-                    text = drug.type, fontWeight = FontWeight.Bold, color = colorResource(
+                    modifier = modifier.semantics { invisibleToUser() },
+                    text = drug.type,
+                    fontWeight = FontWeight.Bold,
+                    color = colorResource(
                         id = R.color.orange_500
                     )
                 )
                 Text(
+                    modifier = modifier.semantics { invisibleToUser() },
                     text = drug.title.firstWord(),
                     fontWeight = FontWeight.SemiBold,
                     color = colorResource(id = R.color.red_500)
