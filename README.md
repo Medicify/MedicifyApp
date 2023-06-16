@@ -1,5 +1,8 @@
 # Medicify
+
 _your visionary guide to medications_
+
+<img src="https://raw.githubusercontent.com/Medicify/.github/main/ui.png" align="center">
 
 ## Introduction
 Medicify is a mobile application that aims to improve the accessibility of health information for visually impaired individuals. 
@@ -20,8 +23,6 @@ Medicify App is Powered by Kotlin, Android Jetpack Compose, and Koin as Dependen
 - Feature to Recognize drugs name from scanned drug’s package and provide information about the drug
 - Feature to Search a drugs by its name and provide the detail information about the drug
 - Feature to recommend other drugs that have similar efficacy
-
-## Screenshots
 
 ## Libraries :
 - [Android Jetpack Compose](https://developer.android.com/jetpack/compose)
